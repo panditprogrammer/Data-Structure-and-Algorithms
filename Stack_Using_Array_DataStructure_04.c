@@ -110,6 +110,48 @@ int pop_from_stack(struct Stack *stack)
     }
 }
 
+//stack top element
+int top_of_stack(struct Stack *stack)
+{
+    if(stack == NULL)
+    {
+        printf("Stack is Not Initialized Yet!\n");
+        return -1;
+    }
+
+    int value;
+    if(is_stack_empty(stack))
+    {
+        printf("Stack Underflow!\n");
+        return -1;
+    }
+
+    return stack->array[stack->top];
+
+}
+
+//stack bottom element
+int bottom_of_stack(struct Stack *stack)
+{
+    if(stack == NULL)
+    {
+        printf("Stack is Not Initialized Yet!\n");
+        return -1;
+    }
+
+    int value;
+    if(is_stack_empty(stack))
+    {
+        printf("Stack Underflow!\n");
+        return -1;
+    }
+
+    return stack->array[0];
+
+}
+
+
+
 //show stack
 struct Stack* show_stack(struct Stack *stack)
 {
@@ -131,6 +173,31 @@ struct Stack* show_stack(struct Stack *stack)
     return stack;
 }
 
+//peak  operation
+int get_value_at_position(struct Stack *stack, int position)
+{
+    struct Stack *temp;
+    if(stack == NULL)
+    {
+        printf("Stack Not Initialized yet!\n");
+        return -1;
+    }
+
+    if(is_stack_empty(stack))
+    {
+        printf("Stack is Emtpy\n");
+        return -1;
+    }
+    temp = stack;
+    if(position <= 0 || stack->capacity-position < 0)
+    {
+        printf("Invalid Position\n");
+        return -1;
+    }
+
+    return temp->array[stack->capacity-position];
+}
+
 main()
 {
     int sel,value;
@@ -144,9 +211,12 @@ main()
         printf("\n2. Push In Stack");
         printf("\n3. Pop from Stack");
         printf("\n4. Show Stack");
-        printf("\n5. Is Stack Emtpy");
-        printf("\n6. Is Stack Full");
-        printf("\n7. Exit");
+        printf("\n5. Value at Top");
+        printf("\n6. Value at Bottom");
+        printf("\n7. Peak value at Position");
+        printf("\n8. Is Stack Emtpy");
+        printf("\n9. Is Stack Full");
+        printf("\n10. Exit");
         printf("\n\n  Enter Your Selection ");
         scanf("%d",&sel);
 
@@ -169,18 +239,29 @@ main()
             stack = show_stack(stack);
             break;
         case 5:
+            printf("Value of Top of Stack is %d\n",top_of_stack(stack));
+            break;
+        case 6:
+            printf("Value of Bottom of Stack is %d\n",bottom_of_stack(stack));
+            break;
+        case 7:
+            printf("Enter Position to Get Value ");
+            scanf("%d",&value);
+            printf("Value at Position %d is %d\n",value,get_value_at_position(stack,value));
+            break;
+        case 8:
             if(is_stack_empty(stack))
                 printf("Stack is empty\n");
             else
                 printf("Stack is not empty\n");
                 break;
-        case 6:
+        case 9:
             if(is_stack_full(stack))
                 printf("Stack is full\n");
             else
                 printf("Stack is not full\n");
             break;
-        case 7:
+        case 10:
             exit(0);
         default:
             printf("Invalid Selection!\n");
